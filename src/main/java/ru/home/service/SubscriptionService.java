@@ -1,8 +1,10 @@
 package ru.home.service;
 
+import jakarta.persistence.Tuple;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.home.dto.SubscriptionCountDto;
 import ru.home.dto.SubscriptionDto;
 import ru.home.dto.SubscriptionResponse;
 import ru.home.entity.Subscription;
@@ -42,7 +44,7 @@ public class SubscriptionService {
         }
 
         Subscription subscription = new Subscription();
-        subscription.setServiceName(serviceName);
+        subscription.setServiceName(serviceName.toUpperCase());
         subscription.setUser(user);
 
         Subscription savedSubscription = subscriptionRepository.save(subscription);
@@ -80,5 +82,15 @@ public class SubscriptionService {
         }
         subscriptionRepository.deleteById(subscriptionId);
         log.info("Deleted subscription with id {} for user with email: {}", subscriptionId, email);
+    }
+
+    public List<SubscriptionCountDto> getTopSubscriptions() {
+        List<Tuple> topSubscriptions = subscriptionRepository.findTopSubscriptions();
+        return topSubscriptions.stream()
+                .map(tuple -> new SubscriptionCountDto(
+                        tuple.get("service_name", String.class),
+                        tuple.get("count", Long.class)
+                ))
+                .toList();
     }
 }

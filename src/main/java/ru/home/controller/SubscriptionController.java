@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.home.dto.SubscriptionCountDto;
 import ru.home.dto.SubscriptionDto;
 import ru.home.dto.SubscriptionResponse;
 import ru.home.service.SubscriptionService;
@@ -52,5 +53,14 @@ public class SubscriptionController {
         subscriptionService.deleteSubscription(email, subscriptionId);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/top")
+    @Operation(summary = "Get top 3 subscriptions", description = "Retrieves the top 3 most popular subscriptions.")
+    @ApiResponse(responseCode = "200", description = "Top subscriptions retrieved successfully",
+            content = @Content(schema = @Schema(implementation = SubscriptionCountDto.class)))
+    public ResponseEntity<List<SubscriptionCountDto>> getTopSubscriptions() {
+        List<SubscriptionCountDto> topSubscriptions = subscriptionService.getTopSubscriptions();
+        return ResponseEntity.ok(topSubscriptions);
     }
 }
