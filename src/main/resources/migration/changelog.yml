@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: migration/scripts/00-extension-uuid-ossp.sql
+  - include:
+      file: migration/scripts/01-table-users.sql
+  - include:
+      file: migration/scripts/02-table-subscriptions.sql

@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:16
+    container_name: subscription-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: subscription-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  backend:
+    build:
+      context: .
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/subscription-db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8080:8080"
