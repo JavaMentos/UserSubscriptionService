@@ -170,6 +170,24 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get top subscriptions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/subscriptions/top",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"subscriptions",
+								"top"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
